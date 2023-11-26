@@ -1,0 +1,15 @@
+appName: recommendationservice
+appImage: gcr.io/google-samples/microservices-demo/recommendationservice
+appVersion: v0.8.1
+appReplicas: 1
+containerPort: 8080
+containerEnvVars:
+- name: PORT 
+  value: "8080"
+- name: PORT 
+  value: "8080"
+  #this is the variable that makes recommendation talk to profuct catalog service
+- name: PRODUCT_CATALOG_SERVICE_ADDR
+  value: "productcatalogservice:3550" #so we include the port of that service
+servicePort: 8080
+serviceType: ClusterIP

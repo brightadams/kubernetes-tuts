@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Values.appName}}
+spec:
+  selector:
+    matchLabels:
+      app: {{.Values.appName}}
+  template:
+    metadata:
+      labels:
+        app: {{.Values.appName}}
+    spec:
+      replicas: {{.Values.appReplicas}}
+      containers:
+        - name: {{.Values.appName}}
+          image: "{{.Values.appImage}}:{{.Values.appVersion}}"
+          ports:
+            - containerPort: {{.Values.containerPort}}
+          env:
+          #since env variables can be multple we make it a list that will be looped over
+          {{- range .Values.containerEnvVars}}
+          - name: {{.name}}
+          #since a variable like port will be a number and env variables are strings, we pipe the number to quote so we get a string
+            value: {{.value | quote}}
+          {{- end}}
